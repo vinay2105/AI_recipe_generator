@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import google.generativeai as genai
+import os
 
 # ✅ Configure Gemini API Key
-genai.configure(api_key="AIzaSyCq-9E_exJEB7d6hx1822dXmrxnVG2Foyg")
+genai.configure(api_key=os.getenv("api_key"))
 
 # ✅ Get Available Models
 models = genai.list_models()
