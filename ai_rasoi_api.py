@@ -6,10 +6,7 @@ import os
 # ✅ Configure Gemini API Key
 genai.configure(api_key=os.getenv("api_key"))
 
-# ✅ Get Available Models
-models = genai.list_models()
-available_models = [model.name for model in models]
-model_name = 'models/gemini-1.5-pro' if 'models/gemini-1.5-pro' in available_models else available_models[0]
+model_name = "gemini-1.5-flash"
 
 # ✅ FastAPI App
 app = FastAPI(
@@ -33,17 +30,24 @@ def generate_recipe(ingredients, preferences):
 You are a desi home-cook AI. A user has these ingredients: {ingredients}.
 Preferences: {preferences}.
 
-Suggest a traditional Indian recipe that:
-- Uses mostly these ingredients
-- Is healthy and low-oil
-- Includes: Dish name, Steps, Calories (estimate), Spice level (1–5), Regional style (e.g. South Indian, Punjabi)
+Your job:
+- Suggest a traditional Indian recipe using mostly these ingredients.
+- Be healthy and low-oil.
+- Include: Dish name, Steps, Calories (estimate), Spice level (1–5), Regional style (e.g. South Indian, Punjabi)
 - Add a friendly mom-style cooking tip
-- Also tell approximate amount of protein, carbohydrates, fats and fibre.
+- Provide approximate amount of protein, carbohydrates, fats, and fibre.
+
+Important Rules:
+- If the request is irrelevant or not related to food or cooking (like jokes, poems, tech queries, etc), politely reply: "❌ Sorry, I only help with desi food recipes. Please provide ingredients."
+- If ingredients are clearly invalid or empty, politely say: "❌ No valid ingredients found. Please list some food ingredients to get a recipe."
 
 Be casual and friendly.
-do not give response if the ingredients is not valid.
 
+Now, generate the response accordingly.
 """
+    model = genai.GenerativeModel(model_name)
+    response = model.generate_content(prompt)
+    return response.text
     model = genai.GenerativeModel(model_name)
     response = model.generate_content(prompt)
 
