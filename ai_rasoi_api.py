@@ -40,7 +40,9 @@ Suggest a traditional Indian recipe that:
 - Add a friendly mom-style cooking tip
 - Also tell approximate amount of protein, carbohydrates, fats and fibre.
 
-Be casual and friendly like an Indian mom talking to her kid.
+Be casual and friendly.
+do not give response if the ingredients is not valid.
+
 """
     model = genai.GenerativeModel(model_name)
     response = model.generate_content(prompt)
